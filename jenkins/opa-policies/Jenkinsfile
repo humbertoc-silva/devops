@@ -28,7 +28,7 @@ pipeline {
 
         stage('Bundle') {
             when {
-                tag pattern: "^v\\d+\\.\\d+\\.\\d+$", comparator: "REGEXP"
+                tag pattern: "^v\\d+\\.\\d+\\.\\d+\$", comparator: "REGEXP"
             }
             steps {
                 echo "Bundle..."
