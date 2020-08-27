@@ -1,0 +1,47 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('OPA Version') {
+            steps {
+                sh 'opa version'
+            }
+        }
+
+        stage('Check') {
+            steps {
+                sh 'opa check .'
+            }
+        }
+
+        stage('Test') {
+            steps {
+                sh 'opa test . -v'
+            }
+        }
+
+        stage('Coverage') {
+            steps {
+                sh 'opa test . -c --threshold 100.0'
+            }
+        }
+
+        stage('Bundle') {
+            when {
+                tag pattern: "^v\\d+\.\\d+\.\\d+$", comparator: "REGEXP"
+            }
+            steps {
+                echo "Bundle..."
+            }
+        }
+
+        stage('Bundle Delivery') {
+            when {
+                tag pattern: "^v\\d+\.\\d+\.\\d+$", comparator: "REGEXP"
+            }
+            steps {
+                echo "Bundle Delivery..."
+            }
+        }
+    }
+}
